@@ -1,19 +1,11 @@
-# MyApp
+# LiveView :layout VS live_session :layout
 
-To start your Phoenix server:
+## Bug
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+It looks like `:layout` option for `live_session` is supposed to override the `:layout` option passed to use `Phoenix.LiveView`. I can see the content of my `live_session` `:layout` flash before it's replaced by the `Phoenix.LiveView` `:layout`.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+### Reproduction
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+1. Navigate to <http://localhost:4000/override>
+2. Observe that, for a very short time, the text "I'm an override layout from a live_session!" will be shown
+3. Then the layout from `use Phoenix.LiveView, layout: {MyAppWeb.LayoutView, "app.html"}` takes over

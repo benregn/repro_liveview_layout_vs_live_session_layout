@@ -18,6 +18,10 @@ defmodule MyAppWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    live_session :override_layout, layout: {MyAppWeb.LayoutView, :override} do
+      live "/override", OverrideLive, :override
+    end
   end
 
   # Other scopes may use custom stacks.
